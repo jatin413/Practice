@@ -56,3 +56,37 @@ having (
   sum(views_sums.sum_unique_views)
 ) > 0
 order by contests.contest_id
+
+
+This is the same question as problem #2 in the SQL Chapter of Ace the Data Science Interview!
+
+You are given the tables below containing information on Robinhood trades and users. Write a query to list the top three cities that have the most completed trade orders in descending order. Output the city and number of orders.
+SELECT u.city,COUNT(t.order_id)as co 
+FROM trades AS t  
+JOIN users AS u 
+on t.user_id=u.user_id
+where t.status='Completed'
+group by u.city
+ORDER BY co DESC 
+LIMIT 3;
+
+Assume you are given the tables below about Facebook pages and page likes. Write a query to return the page IDs of all the Facebook pages that don't have any likes. The output should be in ascending order.
+SELECT pg.page_id
+FROM pages pg 
+left join page_likes pgl 
+on pg.page_id=pgl.page_id
+WHERE pgl.page_id is NULL ;
+
+Assume that you are given the table below containing information on viewership by device type (where the three types are laptop, tablet, and phone). Define “mobile” as the sum of tablet and phone viewership numbers. Write a query to compare the viewership on laptops versus mobile devices.
+
+Output the total viewership for laptop and mobile devices in the format of "laptop_views", "mobile_views".
+
+SELECT 
+SUM(
+  case when device_type='laptop' then 1 else 0 end   )lapv,
+  SUM(
+  case when device_type in ('phone','tablet')
+  then 1 else 0 end)as mobv
+  from viewership;
+  
+  
