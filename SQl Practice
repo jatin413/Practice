@@ -90,3 +90,46 @@ SUM(
   from viewership;
   
   
+  DATA  LEMUR
+  
+  select app_id,
+            ROUND(100.0 * 
+            SUM(CASE WHEN event_type= 'click' then 1 else 0 END) /
+                 SUM(CASE WHEN event_type= 'impression' then 1 else 0 END),2) as rd
+FROM events
+WHERE timestamp>='2022-01-01' and timestamp<='2023-01-01'
+GROUP BY app_id;
+
+SELECT user_id, MAX(post_date::date)- MIN(post_date::date) as d
+FROM posts
+where date_part('year',post_date::date)=2021
+group by user_id
+HAVING COUNT(post_id )>1 
+;
+
+
+WITH qury as(
+SELECT row_number()
+OVER(PARTITION BY company_id, title, description)as r, company_id,title,description
+FROM job_listings
+ ) 
+ 
+ SELECT COUNT(DISTINCT company_id)
+ from qury
+ where r>1
+ 
+ ;
+
+
+SELECT COUNT(DISTINCT user_id)
+FROM
+      ( select user_id,
+      rank() 
+      OVER(PARTITION BY user_id, product_id ORDER BY  date(purchase_date) ASC) as purchase_no  
+      FROM purchases)as r
+WHERE purchase_no=2
+
+
+
+  
+  
