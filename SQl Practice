@@ -478,7 +478,39 @@ rows BETWEEN 2 preceding and current row),2)
 from cte;
 
 
+sqlzoo.net..............................
 
+
+Guest House Assessment Easy
+
+SELECT booking_date,nights
+FROM booking 
+ WHERE guest_id=1183;
+ 
+ select b.arrival_time,g.first_name,g.last_name 
+from booking as b join guest as g 
+on b.guest_id = g.id
+where b.booking_date='2016-11-05'  
+order by b.arrival_time;
+
+select b.booking_id, b.room_type_requested,b.occupants,sum(r.amount)
+from booking as b join rate as r 
+on b.room_type_requested=r.room_type
+where booking_id in (5152, 5165, 5154 , 5295)
+group by b.booking_id ,b.room_type_requested,b.occupants ;
+
+select g.first_name,g.last_name,g.address 
+from booking as b join room r 
+on r.id=b.room_no
+join guest as g
+on b.guest_id = g.id 
+where r.id=101 and b.booking_date='2016-12-03';
+
+
+
+ 
+ 
+ 
 
 
 
