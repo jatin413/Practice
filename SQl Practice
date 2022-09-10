@@ -346,6 +346,138 @@ group by id_guest
 order by sum(n_messages)desc ;
 
 
+Given the reviews table, write a query to get the average stars for each product every month.
+
+The output should include the month, product_id, and average star rating.
+
+Round the average star rating to two decimal places.
+Sort the output based on month and product_id.
+
+SELECT date_part('month',submit_date),product_id,ROUND(AVG(stars),2) FROM reviews
+GROUP BY date_part('month',submit_date),product_id
+ORDER BY date_part('month',submit_date),product_id;
+
+
+
+You are given a table of Facebook posts from users who posted at least twice in 2021. Write a query to find the average number of days (with decimals) between each user’s posts during 2021.
+
+Output the user and the average number of the days they waited between posts.
+
+Assumptions:
+
+A single user can post several times per day.
+When calculating differences between dates, output the component of the time interval representing days.
+Example output: 5.5 days
+posts Table:
+Column Name	Type
+user_id	integer
+post_id	integer
+post_date	timestamp
+post_content	timestamp
+posts Example Input:
+user_id	post_id	post_date	post_content
+151652	599415	07/10/2021 12:00:00	Need a hug
+151652	994156	07/15/2021 12:00:00	Does anyone have an extra iPhone charger to sell?
+661093	624356	07/29/2021 13:00:00	Bed. Class 8-12. Work 12-3. Gym 3-5 or 6. Then class 6-10. Another day that's gonna fly by. I miss my girlfriend
+004239	784254	07/04/2021 11:00:00	Happy 4th of July!
+661093	442560	07/08/2021 14:00:00	Just going to cry myself to sleep after watching Marley and Me.
+151652	111766	07/12/2021 19:00:00	I'm so done with covid - need travelling ASAP!
+Example Output:
+user_id	days_between
+151652	2.5
+661093	21
+Explanation: User 661903 had 2 days between the first and the second post; and 3 days between the second and the third post. Thus, the average is 2.5.
+
+
+
+
+SELECT user_id,
+date_part('day',MAX(post_date)-MIN(post_date))/
+(COUNT(post_id)-1) as bw
+from posts
+where EXTRACT(year from post_date)=2021
+GROUP BY user_id 
+HAVING count(post_id)>=2;
+
+
+Assume you are given the table below on user transactions. Write a query to obtain the list of customers whose first transaction was valued at $50 or more. Output the number of users.
+
+Clarification: Use the transaction_date field to determine which transaction should be labeled as the first for each user. Use a specific function (we can't give too much away!) to account for scenarios where a user had multiple transactions on the same day, and one of those was the first.
+
+user_transactions Table:
+Column Name	Type
+transaction_id	integer
+user_id	integer
+spend	decimal
+transaction_date	timestamp
+user_transactions Example Input:
+transaction_id	user_id	spend	transaction_date
+759274	111	49.50	02/03/2022 00:00:00
+850371	111	51.00	03/15/2022 00:00:00
+615348	145	36.30	03/22/2022 00:00:00
+137424	156	151.00	04/04/2022 00:00:00
+248475	156	87.00	04/16/2022 00:00:00
+Example Output:
+users
+1
+Explanation: Only user 156 has a first transaction valued over $50.
+
+
+with cte as(
+SELECT *,
+RANK()OVER(PARTITION BY user_id ORDER BY transaction_date Asc)as rnk 
+FROM user_transactions
+
+)
+
+select count(DISTINCT user_id)
+from cte
+where rnk=1 and  spend >=50
+;
+
+
+The table below contains information about tweets over a given period of time. Calculate the 3-day rolling average of tweets published by each user for each date that a tweet was posted. Output the user id, tweet date, and rolling averages rounded to 2 decimal places.
+
+Important Assumptions:
+
+Rows in this table are consecutive and ordered by date.
+Each row represents a different day
+A day that does not correspond to a row in this table is not counted. The most recent day is the next row above the current row.
+Note: Rolling average is a metric that helps us analyze data points by creating a series of averages based on different subsets of a dataset. It is also known as a moving average, running average, moving mean, or rolling mean.
+
+tweets Table:
+Column Name	Type
+tweet_id	integer
+user_id	integer
+tweet_date	timestamp
+tweets Example Input:
+tweet_id	user_id	tweet_date
+214252	111	06/01/2022 12:00:00
+739252	111	06/01/2022 12:00:00
+846402	111	06/02/2022 12:00:00
+241425	254	06/02/2022 12:00:00
+137374	111	06/04/2022 12:00:00
+Example Output:
+user_id	tweet_date	rolling_avg_3days
+111	06/01/2022 12:00:00	2.00
+111	06/02/2022 12:00:00	1.50
+111	06/04/2022 12:00:00	1.33
+254	06/02/2022 12:00:00	1.00
+Explanation
+User 111 made 2 tweets on 06/01/2022, and 1 tweet the next day. By 06/02/2022, the user had made in total 3 tweets over the course of 2 days; thus, the rolling average is 3/2=1.5. By 06/04/2022, there are 4 tweets that were made during 3 days: 4/3 = 1.33 rolling average.
+
+
+
+WITH cte as(
+SELECT user_id,tweet_date,COUNT(user_id)as cnt 
+FROM tweets
+GROUP BY user_id, tweet_date)
+
+SELECT user_id,tweet_date, round(AVG(cnt) OVER(PARTITION BY user_id ORDER BY tweet_date 
+rows BETWEEN 2 preceding and current row),2)
+from cte;
+
+
 
 
 
