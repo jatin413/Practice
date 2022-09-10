@@ -507,6 +507,17 @@ on b.guest_id = g.id
 where r.id=101 and b.booking_date='2016-12-03';
 
 
+select guest_id,count(nights),sum(nights)
+from booking
+where guest_id in (1185 , 1270)
+group by guest_id;
+
+
+
+
+
+
+
 
  
  
