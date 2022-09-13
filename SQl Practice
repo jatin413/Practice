@@ -540,8 +540,10 @@ SELECT guest.last_name, guest.first_name, guest.address,
 FROM guest LEFT JOIN booking ON guest.id = booking.guest_id;
 
  
- 
+ How busy are we? For each day of the week beginning 2016-11-25 show the number of bookings starting that day. Be sure to show all the days of the week in the correct order.
 
 
-
+select booking_date, count(arrival_time) from booking 
+where booking_date  between '2016-11-25' and '2016-12-01' 
+group by booking_date;
 
