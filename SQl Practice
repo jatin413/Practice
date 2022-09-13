@@ -547,3 +547,8 @@ select booking_date, count(arrival_time) from booking
 where booking_date  between '2016-11-25' and '2016-12-01' 
 group by booking_date;
 
+How many guests? Show the number of guests in the hotel on the night of 2016-11-21. Include all occupants who checked in that day but not those who checked out.
+
+select sum(occupants) from booking
+where booking_date<='2016-11-21' and
+       DATE_ADD(booking_date, INTERVAL(nights) DAY) > '2016-11-21';
