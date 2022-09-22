@@ -7,4 +7,20 @@ n = [19,19,15,5,3,5,5,2]
 test(n)
 
 
+2)
+
+def t(n):
+    return len(n)==8 and n.count(n[4])>=3
+
+
+n = [19,18,15,5,3,5,5,2]
+test(n)
     
+3)
+
+def tst(n):
+    n=int(input())
+    return n>=4**4 and n%34==4
+tst(n)
+
+
