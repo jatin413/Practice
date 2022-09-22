@@ -1,0 +1,10 @@
+1)
+
+def test(n):
+    return n.count(19)==2 and n.count(5)>=3
+
+n = [19,19,15,5,3,5,5,2]
+test(n)
+
+
+    
