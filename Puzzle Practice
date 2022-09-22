@@ -32,3 +32,13 @@ def test(n):
 n=10
 print([n+2* i for i in range(n)])
 print(test(n))
+
+
+
+5)
+def test(str1):
+    return str1[len(str1)-2] in str1[len(str1)-1] and str[len(str1)-2]!=str1[len(str1)-1]
+
+str1= ["a","abb","sfs", "oo", "de", "sfde"]
+test(str1)
+
