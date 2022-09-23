@@ -87,3 +87,34 @@ def test(n):
     return all(n[i]!=n[i+1] for i in range(len(n)-1)) and len(set(n))==4
 n = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4]   
 print(test(n))  
+
+
+10)
+
+Given a string consisting of whitespace and groups of matched parentheses, write a Python program to split it into groups of perfectly matched parentheses without any whitespace.
+
+Input: 
+( ()) ((()()())) (()) ()
+Output:
+['(())', '((()()()))', '(())', '()']
+
+Input: 
+() (( ( )() (  )) ) ( ())
+Output:
+['()', '((()()()))', '(())']
+
+
+def test(c):
+    ls=[]
+    s2=''
+    for s in c.replace(' ',''):
+        s2+=s
+        if s2.count('(')==s2.count(')'):
+            ls.append(s2)
+            print(ls)
+            s2=''
+           
+            print(s2)
+    return ls
+c='( ()) ((()()())) (()) ()'
+print(test(c))
