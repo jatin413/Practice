@@ -77,3 +77,13 @@ x=re.split(r'([ ,]+)',s)
 print(x)
 print(x[1::2])
 
+9)
+
+Write a Python program to find list integers containing exactly four distinct values, such that no integer repeats twice consecutively among the first twenty entries.
+
+Note: The list needs to have length greater than ten.)
+
+def test(n):
+    return all(n[i]!=n[i+1] for i in range(len(n)-1)) and len(set(n))==4
+n = [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4]   
+print(test(n))  
