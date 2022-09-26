@@ -658,3 +658,9 @@ SELECT personal_profile_id, mxf,pp.followers from popcom
 LEFT JOIN personal_profiles as pp on popcom.personal_profile_id=pp.profile_id
 where pp.followers > mxf
 ;
+
+
+with cte as (
+    select min(lat_n)as n_min,max(lat_n)as n_max,min(long_w)as w_min,max(long_w)as w_max from station )
+    
+select round(sqrt(power(n_max-n_min,2)+power(w_max-w_min,2)),4) from cte   
