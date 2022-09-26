@@ -663,4 +663,8 @@ where pp.followers > mxf
 with cte as (
     select min(lat_n)as n_min,max(lat_n)as n_max,min(long_w)as w_min,max(long_w)as w_max from station )
     
-select round(sqrt(power(n_max-n_min,2)+power(w_max-w_min,2)),4) from cte   
+select round(sqrt(power(n_max-n_min,2)+power(w_max-w_min,2)),4) from cte 
+
+
+select distinct city from station 
+where left(city,1) not in ('a','e','i','o','u') and right(city,1) not in ('a','e','i','o','u')
