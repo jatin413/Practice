@@ -807,3 +807,15 @@ select fbe.location,avg(fb_s.popularity) from facebook_employees as fbe
 facebook_hack_survey as fb_s
 on fbe.id=fb_s.employee_id
 group by fbe.location;
+
+
+Write a query that calculates the difference between the highest salaries found in the marketing and engineering departments. Output just the absolute difference in salaries.
+select (
+        max (case when department='marketing' then salary end)
+        -
+        max(case when department='engineering' then salary end)
+        )as salary_difference
+from db_employee as emp
+inner join
+db_dept as dept
+on emp.department_id=dept.id;
