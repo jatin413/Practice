@@ -963,3 +963,4 @@ SELECT account_id,sum((case when transaction_type ='Deposit' then amount
 FROM transactions
 group by account_id;
 
+
