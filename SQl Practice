@@ -963,4 +963,10 @@ SELECT account_id,sum((case when transaction_type ='Deposit' then amount
 FROM transactions
 group by account_id;
 
+The output should include the month in numerical value, product id, 
+and average star rating rounded to two decimal places. Sort the output based on month followed by the product id.
 
+SELECT EXTRACT(Month from submit_date),product_id,round(AVG(stars),2)   
+FROM reviews
+group by EXTRACT(Month from submit_date),product_id
+ORDER BY EXTRACT(Month from submit_date),product_id;
