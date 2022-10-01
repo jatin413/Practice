@@ -924,3 +924,42 @@ with cte1 as (select
 
 
 SELECT cte2.l,cte1.p from cte1,cte2
+
+
+You are given the tables below containing information on Robinhood trades and users. Write a query to list the top three cities that have the most completed trade orders in descending order.
+
+Output the city and number of orders.
+
+SELECT u.city,COUNT(t.status) as c
+FROM trades as t RIGHT JOIN users as u 
+on t.user_id=u.user_id
+where t.status='Completed'
+group by u.city
+ORDER BY c DESC
+LIMIT 3;
+
+
+Assume you are given the table below that shows job postings for all companies on the LinkedIn platform.
+Write a query to get the number of companies that have posted duplicate job listings 
+(two jobs at the same company with the same title and description).
+
+
+with cte as(SELECT row_number() OVER(PARTITION BY company_id,title,description)as ranking,company_id,title,description 
+FROM job_listings
+)
+
+select count(* )from cte
+where ranking >1
+;
+
+Given a table of bank deposits and withdrawals, return the final balance for each account.
+
+Assumption:
+
+All the transactions performed for each account are present in the table; no transactions are missing.
+
+SELECT account_id,sum((case when transaction_type ='Deposit' then amount
+                            when transaction_type ='Withdrawal' then -amount end) ) 
+FROM transactions
+group by account_id;
+
