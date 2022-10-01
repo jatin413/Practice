@@ -907,3 +907,20 @@ bumper
 Explanation: The only item in the output is "bumper" because step 3 didn't have a finish date.
 
 SELECT distinct part FROM parts_assembly where finish_date is null;
+
+
+with cte1 as(SELECT device_type from viewership where  device_type ='laptop')
+
+
+Assume that you are given the table below containing information on viewership by device type (where the three types are laptop, tablet, and phone). Define “mobile” as the sum of tablet and phone viewership numbers. Write a query to compare the viewership on laptops versus mobile devices.
+
+Output the total viewership for laptop and mobile devices in the format of "laptop_views" and "mobile_views".
+
+with cte1 as (select 
+         COUNT(CASE WHEN device_type IN('tablet','phone') THEN 'mobile' end)as p  
+         from viewership),
+      cte2 as (SELECT count(device_type) as l
+                from viewership where  device_type ='laptop')   
+
+
+SELECT cte2.l,cte1.p from cte1,cte2
