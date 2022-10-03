@@ -1024,3 +1024,19 @@ ORDER BY count(sender_id)  DESC
 limit 2;
 
 
+
+You are given a table of PayPal payments showing the payer, the recipient, and the amount paid. A two-way unique relationship is established when two people send money back and forth. Write a query to find the number of two-way unique relationships in this data.
+
+Assumption:
+
+A payer can send money to the same recipient multiple times.
+
+with cte as ((SELECT  payer_id,recipient_id
+FROM payments)
+intersect
+SELECT  recipient_id,payer_id
+FROM payments
+)
+
+
+select COUNT(*)/2 FROM cte
