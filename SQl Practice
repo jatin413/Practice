@@ -970,3 +970,21 @@ SELECT EXTRACT(Month from submit_date),product_id,round(AVG(stars),2)
 FROM reviews
 group by EXTRACT(Month from submit_date),product_id
 ORDER BY EXTRACT(Month from submit_date),product_id;
+
+
+
+Microsoft Azure's capacity planning team wants to understand how much data its customers are using, and how much spare capacity is left in each of it's data centers. You’re given three tables: customers, datacenters, and forecasted_demand.
+
+Write a query to find the total monthly unused server capacity for each data center. Output the data center id in ascending order and the total spare capacity.
+
+with cte as (SELECT datacenter_id,sum(monthly_demand) as monthly
+from forecasted_demand
+GROUP BY datacenter_id)
+
+SELECT d.datacenter_id,d.monthly_capacity-c.monthly  FROM datacenters as d 
+JOIN 
+cte as c 
+on c.datacenter_id=d.datacenter_id
+GROUP BY d.datacenter_id,(d.monthly_capacity-c.monthly) 
+ORDER BY d.datacenter_id  ASC,(d.monthly_capacity-c.monthly) 
+
