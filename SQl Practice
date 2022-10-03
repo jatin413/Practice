@@ -973,9 +973,11 @@ ORDER BY EXTRACT(Month from submit_date),product_id;
 
 
 
-Microsoft Azure's capacity planning team wants to understand how much data its customers are using, and how much spare capacity is left in each of it's data centers. You’re given three tables: customers, datacenters, and forecasted_demand.
+Microsoft Azure's capacity planning team wants to understand how much data its customers are using, 
+and how much spare capacity is left in each of it's data centers. You’re given three tables: customers, datacenters, and forecasted_demand.
 
-Write a query to find the total monthly unused server capacity for each data center. Output the data center id in ascending order and the total spare capacity.
+Write a query to find the total monthly unused server capacity for each data center. 
+Output the data center id in ascending order and the total spare capacity.
 
 with cte as (SELECT datacenter_id,sum(monthly_demand) as monthly
 from forecasted_demand
@@ -987,4 +989,18 @@ cte as c
 on c.datacenter_id=d.datacenter_id
 GROUP BY d.datacenter_id,(d.monthly_capacity-c.monthly) 
 ORDER BY d.datacenter_id  ASC,(d.monthly_capacity-c.monthly) 
+
+
+
+Given a table of Facebook posts, for each user who posted at least twice in 2021,
+write a query to find the number of days between each user’s first post of the year and last post of the year in the year 2021. 
+Output the user and number of the days between each user's first and last post.
+
+SELECT user_id,MAX(post_date::Date)-min(post_date::Date)
+FROM posts
+where Date_part('year',post_date::Date)=2021
+GROUP BY user_id
+HAVING COUNT(post_id)>1;
+
+
 
