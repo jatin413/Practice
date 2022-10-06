@@ -1171,4 +1171,31 @@ where purch_amt>=(select avg(purch_amt) from orders as b
                   where b.customer_id=o.customer_id);
 
 
+Visa is trying to analyze its Apply Pay partnership. Calculate the total transaction volume for each merchant where the transaction was performed via Apple Pay.
 
+Output the merchant ID and the total transactions by merchant. For merchants with no Apple Pay transactions, output their total transaction volume as 0.
+
+Display the result in descending order of transaction volume.
+
+SELECT merchant_id,sum(CASE
+                          WHEN payment_method LIKE'%pple%' then transaction_amount 
+                          else 0 END) as tot
+FROM transactions
+GROUP BY merchant_id
+order by tot DESC ;
+
+
+Assume you have an events table on app analytics. Write a query to get the click-through rate (CTR %) per app in 2022. Output the results in percentages rounded to 2 decimal places.
+
+Notes:
+
+To avoid integer division, you should multiply the click-through rate by 100.0, not 100.
+Percentage of click-through rate = 100.0 * Number of clicks / Number of impressions
+
+
+Assume you have an events table on app analytics. Write a query to get the click-through rate (CTR %) per app in 2022. Output the results in percentages rounded to 2 decimal places.
+
+Notes:
+
+To avoid integer division, you should multiply the click-through rate by 100.0, not 100.
+Percentage of click-through rate = 100.0 * Number of clicks / Number of impressions
