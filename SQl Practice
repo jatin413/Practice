@@ -1192,10 +1192,10 @@ Notes:
 To avoid integer division, you should multiply the click-through rate by 100.0, not 100.
 Percentage of click-through rate = 100.0 * Number of clicks / Number of impressions
 
-
-Assume you have an events table on app analytics. Write a query to get the click-through rate (CTR %) per app in 2022. Output the results in percentages rounded to 2 decimal places.
-
-Notes:
-
-To avoid integer division, you should multiply the click-through rate by 100.0, not 100.
-Percentage of click-through rate = 100.0 * Number of clicks / Number of impressions
+SELECT app_id,round(100.0*COUNT(CASE 
+                      WHEN event_type LIKE 'clic%' then event_type end )/count(
+                                                CASE
+                                                    WHEN event_type LIKE 'impress%' then event_type end ),2) 
+FROM events
+where timestamp>='2022-01-01' and timestamp<'2023-01-01'
+GROUP BY app_id;
