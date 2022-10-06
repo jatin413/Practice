@@ -1142,6 +1142,19 @@ select a.*,c.cust_name from orders as a,customer as c
 where ord_date='2012-08-17' and a.customer_id=c.customer_id;                                                
                                                 
                                                 
+11. From the following tables write a SQL query to 
+find salespeople who had more than one customer. 
+Return salesman_id and name. 
+
+select salesman_id, name from salesman as a
+where 1<(select count(*) 
+        from customer 
+        where salesman_id=a.salesman_id);
+        
+        
+
+
+
 
 
 
