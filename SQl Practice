@@ -1111,4 +1111,20 @@ select * from customer where customer_id=(select
                                                       where name= 'Mc Lyon');
 
 
+8. From the following tables write a 
+SQL query to count the number of customers with 
+grades above the average in New York City.
+Return grade and count.  
+
+select grade,count(*) 
+         from customer
+         group by grade 
+         having grade>(select avg(grade) from customer where city ='New York');
+         
+         
+         
+
+
+
+
 
