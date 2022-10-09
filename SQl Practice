@@ -1323,3 +1323,30 @@ SELECT m_day,
                       
 from cte
 GROUP BY m_day;
+
+
+
+Assume you are given the table below containing information on Amazon customers and their spend on products belonging to various categories. Identify the top two highest-grossing products within each category in 2022. Output the category, product, and total spend.
+
+
+WITH cte1 as (
+
+SELECT category,product,SUM(spend)as tot
+FROM product_spend
+WHERE transaction_date>='2022-01-01' and transaction_date<='2022-12-31'
+GROUP BY category, product),
+
+
+cte2 AS(
+SELECT *,RANK()OVER(PARTITION BY category ORDER BY tot DESC
+)as final
+FROM cte1
+
+)
+
+
+SELECT category, product,tot
+FROM cte2
+WHERE final<=2
+ORDER BY category, final 
+;
