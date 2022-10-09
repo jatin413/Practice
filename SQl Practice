@@ -1300,3 +1300,26 @@ FROM cte
 
 
 
+
+Assume you are given the table below containing measurement values obtained from a sensor over several days. Measurements are taken several times within a given day.
+
+Write a query to obtain the sum of the odd-numbered and even-numbered measurements on a particular day, in two different columns.
+
+Note that the 1st, 3rd, 5th measurements within a day are considered odd-numbered measurements and the 2nd, 4th, 6th measurements are even-numbered measurements.
+
+with cte as(
+SELECT measurement_value,CAST(measurement_time as Date) as m_day ,
+row_number()OVER(PARTITION BY CAST(measurement_time as Date) ORDER BY measurement_time )as r_m 
+FROM measurements)
+
+SELECT m_day,
+              
+              SUM(CASE
+                      WHEN r_m%2!=0 then measurement_value
+                      ELSE 0 end)as odd ,
+              SUM(CASE 
+                      WHEN r_m%2=0 THEN measurement_value
+                      ELSE 0 end) as even        
+                      
+from cte
+GROUP BY m_day;
